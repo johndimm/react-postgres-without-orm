@@ -36,7 +36,10 @@ end;$$
 
 drop function if exists get_users();
 create or replace function get_users()
-returns table (user_name varchar, email varchar, city varchar)
+returns table (
+  user_name varchar, 
+  email varchar, 
+  city varchar)
 language plpgsql    
 as $$
 begin

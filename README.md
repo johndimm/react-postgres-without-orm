@@ -71,7 +71,10 @@ In postgres, define a function that runs a SQL query:
 
 ```
 create or replace function get_users()
-returns table (user_name varchar, email varchar, city varchar)
+returns table (
+  user_name varchar,
+  email varchar,
+  city varchar)
 language plpgsql
 as $$
 begin
