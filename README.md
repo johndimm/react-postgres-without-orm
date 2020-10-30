@@ -44,12 +44,21 @@ Type "help" for help.
 testdb=# \q
 ```
 
+To set up the empty database, load the procedures and functions. No tables yet, they will be created by the app using a stored procedure.
+
+```
+$ cd postgres
+$ psql < storedprocs.sql
+```
+
 To run the React app:
 
 ```
+
 npm install
 . .env
 npm run start
+
 ```
 
 ## Hiding SQL from javascript
@@ -65,22 +74,31 @@ Stored procedures are used to create tables, insert into them, update them, alte
 
 The javascript code does not know or care about the tables, columns, joins, or anything else going on inside the database. It cares about the parameters it passes to the database and the rows it gets back. The procedures and functions are a level of indirection that hides the sometimes complex details about the database from the application. The database contains its own API.
 
+## The Stack
+
+- node
+- node-postgres
+- postgreSQL
+- expressjs
+
 ## Example
 
 In postgres, define a function that runs a SQL query:
 
 ```
+
 create or replace function get_users()
 returns table (
-  user_name varchar,
-  email varchar,
-  city varchar)
+user_name varchar,
+email varchar,
+city varchar)
 language plpgsql
 as $$
 begin
   return query
     select * from users;
 end;$$
+
 ```
 
 This is a simple query, but it could be as complex as needed, and even make use of postgres features like windowing.
@@ -88,42 +106,53 @@ This is a simple query, but it could be as complex as needed, and even make use 
 In server-side javascript:
 
 ```
+
 async function performSQLQuery(query) {
-	try {
-		const response = await client.query(query);
-		return response.rows;
-	} catch (error) {}
+try {
+const response = await client.query(query);
+return response.rows;
+} catch (error) {}
 }
 
 exports.getUsers = function () {
-	return performSQLQuery("select * from get_users()");
+return performSQLQuery("select \* from get_users()");
 };
+
 ```
 
 Routing:
 
 ```
-app.get("/api/dbtest", async (req, res) => {
-	await db.connect();
-	await db.createUsersTable();
-	await db.addSampleData();
-	const users = await db.getUsers();
-	db.close();
 
-	res.setHeader("Content-Type", "application/json");
-	res.send(users);
+app.get("/api/dbtest", async (req, res) => {
+await db.connect();
+await db.createUsersTable();
+await db.addSampleData();
+const users = await db.getUsers();
+db.close();
+
+    res.setHeader("Content-Type", "application/json");
+    res.send(users);
+
 });
+
 ```
 
 In client-size javascript:
 
 ```
-	async function getData() {
-		const url = "http://localhost:3001/api/dbtest/";
-		const response = await fetch(url);
-		const data = await response.json();
-		setData(data);
-	}
+
+    async function getData() {
+    	const url = "http://localhost:3001/api/dbtest/";
+    	const response = await fetch(url);
+    	const data = await response.json();
+    	setData(data);
+    }
+
 ```
 
 The data returned is a json array of rows. App.js renders the results as an HTML table.
+
+```
+
+```
