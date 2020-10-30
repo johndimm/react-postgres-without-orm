@@ -63,7 +63,7 @@ There are two kinds of queries that are done in javascript.
 
 Stored procedures are used to create tables, insert into them, update them, alter them, and make other structural changes in the database. User defined functions are used to get data.
 
-The javascript code does not know or care about the tables, columns, joins, or anything else going on inside the database. It cares about the parameters it passes to the database and the rows it gets back. The procedures and functions are a level of indirection that hides the sometimes complex details about the database from the application.
+The javascript code does not know or care about the tables, columns, joins, or anything else going on inside the database. It cares about the parameters it passes to the database and the rows it gets back. The procedures and functions are a level of indirection that hides the sometimes complex details about the database from the application. The database contains its own API.
 
 ## Example
 
