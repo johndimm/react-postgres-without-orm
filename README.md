@@ -4,11 +4,21 @@ If you don't know SQL, an Object Relational Mapping tool saves the day. If you d
 
 This repo shows how to use postgres without an ORM, and how to isolate SQL code to the database. The react app does not need to know the structure of the database.
 
-On the other hand, to use this solution, you need to know SQL.
+On the other hand, to use this solution, you need to be comfortable with SQL.
+
+## The Stack
+
+- node
+- react
+- expressjs
+- node-postgres
+- postgreSQL
 
 ## Setup
 
-You will need a local installation of postgreSQL. After doing the install, log in to the postgres user, run psql, and create a new database named testdb.
+You will need a local installation of postgreSQL.
+
+After doing the install, log in to the postgres user, run psql, and create a new database named testdb.
 
 ```
 $ sudo bash
@@ -23,7 +33,7 @@ CREATE DATABASE
 postgres=# \q
 ```
 
-Then create a .env file like this:
+Log out of the postgres user and return to the project directory, then create a .env file like this:
 
 ```
 export PGUSER=postgres
@@ -47,6 +57,7 @@ testdb=# \q
 To set up the empty database, load the procedures and functions. No tables yet, they will be created by the app using a stored procedure.
 
 ```
+$ . .env
 $ cd postgres
 $ psql < storedprocs.sql
 ```
@@ -61,25 +72,22 @@ npm run start
 
 ```
 
+Resulting page:
+
+<img width="50%" src="https://raw.githubusercontent.com/johndimm/react-postgres-without-orm/main/public/screenshot.png" />
+
 ## Hiding SQL from javascript
 
-An ORM lets you embed SQL in your javascript. But it's awkward to compose complex SQL command strings in javascript. The approach here is to hide the SQL by calling only stored procedures and user-defined functions in javascript. The queries themselves live in the database.
+An ORM lets you embed SQL in your javascript. But it's awkward to compose complex SQL command strings in javascript. **The approach here is to isolate and encapsulate the SQL by calling only stored procedures and user-defined functions.** The queries themselves live in the database.
 
-There are two kinds of queries that are done in javascript.
+There are two kinds of queries issued from javascript:
 
 - call stored_procedure (params)
 - select \* from user_defined_function (params)
 
-Stored procedures are used to create tables, insert into them, update them, alter them, and make other structural changes in the database. User defined functions are used to get data.
+Stored procedures are used to create tables, insert records, update them, alter them, and make other structural changes in the database. User defined functions are used to get data.
 
-The javascript code does not know or care about the tables, columns, joins, or anything else going on inside the database. It cares about the parameters it passes to the database and the rows it gets back. The database contains its own API.
-
-## The Stack
-
-- node
-- node-postgres
-- postgreSQL
-- expressjs
+The javascript code does not know or care about the tables, columns, joins, indices, or anything else going on inside the database. It cares about the parameters it passes to the database and the rows it gets back. **The database contains its own API.**
 
 ## Example
 
@@ -150,3 +158,5 @@ async function getData() {
 ```
 
 The data returned is a json array of rows. App.js renders the results as an HTML table.
+
+## The resulting page
