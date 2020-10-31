@@ -63,7 +63,7 @@ npm run start
 
 ## Hiding SQL from javascript
 
-But it's awkward to compose complex SQL command strings in javascript. The approach here is to hide the SQL from javascript by calling only stored procedures and user-defined functions. The queries themselves live in the database.
+An ORM lets you embed SQL in your javascript. But it's awkward to compose complex SQL command strings in javascript. The approach here is to hide the SQL by calling only stored procedures and user-defined functions in javascript. The queries themselves live in the database.
 
 There are two kinds of queries that are done in javascript.
 
@@ -72,7 +72,7 @@ There are two kinds of queries that are done in javascript.
 
 Stored procedures are used to create tables, insert into them, update them, alter them, and make other structural changes in the database. User defined functions are used to get data.
 
-The javascript code does not know or care about the tables, columns, joins, or anything else going on inside the database. It cares about the parameters it passes to the database and the rows it gets back. The procedures and functions are a level of indirection that hides the sometimes complex details about the database from the application. The database contains its own API.
+The javascript code does not know or care about the tables, columns, joins, or anything else going on inside the database. It cares about the parameters it passes to the database and the rows it gets back. The database contains its own API.
 
 ## The Stack
 
@@ -89,9 +89,10 @@ In postgres, define a function that runs a SQL query:
 
 create or replace function get_users()
 returns table (
-user_name varchar,
-email varchar,
-city varchar)
+  user_name varchar,
+  email varchar,
+  city varchar
+)
 language plpgsql
 as $$
 begin
@@ -125,15 +126,14 @@ Routing:
 ```
 
 app.get("/api/dbtest", async (req, res) => {
-await db.connect();
-await db.createUsersTable();
-await db.addSampleData();
-const users = await db.getUsers();
-db.close();
+	await db.connect();
+	await db.createUsersTable();
+	await db.addSampleData();
+	const users = await db.getUsers();
+	db.close();
 
     res.setHeader("Content-Type", "application/json");
     res.send(users);
-
 });
 
 ```
@@ -141,18 +141,12 @@ db.close();
 In client-size javascript:
 
 ```
-
-    async function getData() {
-    	const url = "http://localhost:3001/api/dbtest/";
-    	const response = await fetch(url);
-    	const data = await response.json();
-    	setData(data);
-    }
-
+async function getData() {
+	const url = "http://localhost:3001/api/dbtest/";
+	const response = await fetch(url);
+	const data = await response.json();
+	setData(data);
+}
 ```
 
 The data returned is a json array of rows. App.js renders the results as an HTML table.
-
-```
-
-```

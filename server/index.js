@@ -12,8 +12,6 @@ app.get("/api/dbtest", async (req, res) => {
 	const users = await db.getUsers();
 	db.close();
 
-	console.log("===> from db:", users);
-
 	res.setHeader("Content-Type", "application/json");
 	res.send(users);
 });

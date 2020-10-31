@@ -1,9 +1,9 @@
 // import { getDefaultNormalizer } from "@testing-library/react";
 import "./App.css";
 import { useState, useEffect } from "react";
-// var fetch = require("node-fetch");
 
 const GenericHTMLTable = ({ data }) => {
+	// data is an array of row objects.
 	let columns = [];
 	if (data && data.length > 0)
 		columns = Object.keys(data[0]).map((val) => {
