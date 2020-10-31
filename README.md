@@ -8,15 +8,15 @@ On the other hand, to use this solution, you need to be comfortable with SQL.
 
 ## The Stack
 
-- node
-- react
-- expressjs
-- node-postgres
-- postgreSQL
+- node 15.0.1
+- react 17.0.1
+- expressjs 4.17.1
+- node-postgres 8.4.2
+- postgreSQL 12.2
 
 ## Setup
 
-You will need a local installation of postgreSQL.
+You will need a local installation of postgreSQL for this demo.
 
 After doing the install, log in to the postgres user, run psql, and create a new database named testdb.
 
@@ -158,5 +158,3 @@ async function getData() {
 ```
 
 The data returned is a json array of rows. App.js renders the results as an HTML table.
-
-## The resulting page
