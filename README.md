@@ -1,10 +1,10 @@
 # Simple React App with PostgreSQL
 
-If you don't know SQL, an Object Relational Mapping tool saves the day. If you do, it just gets in the way.
+If you don't know SQL, an Object Relational Mapping tool saves the day. You can store and retrieve structured data.
 
-This repo shows how to use postgres without an ORM, and how to isolate SQL code to the database. The react app does not need to know the structure of the database.
+But if you are already comfortable with SQL, ORM tools like sequelize are a pain. True, you can switch databases easily, but if that's not a priority then consider working directly in SQL in the native database. It gives you more functionality and more optimization opportunities.
 
-On the other hand, to use this solution, you need to be comfortable with SQL.
+This repo shows how to use postgres without an ORM. It also shows how to isolate SQL code to the database, so the react app does not know the structure of the database.
 
 ## The Stack
 
@@ -146,7 +146,7 @@ app.get("/api/dbtest", async (req, res) => {
 
 ```
 
-In client-size javascript:
+In client-side javascript:
 
 ```
 async function getData() {
